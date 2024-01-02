@@ -57,22 +57,27 @@ CAN（Controller Area Network）协议包含了几个关键特性，使其成为
 这个命令是用来配置CAN网络接口的，具体来说，是将CAN接口（如can0）设置为使用CAN FD（Flexible Data-rate）模式，并指定总线比特率和数据比特率。下面是命令的分段和各部分的作用：
 
 >ip link set can0 up
+
 ip 是用来操作网络接口的命令。
 link set can0 指定要配置的网络接口，这里是 can0。
 up 将网络接口激活（启用）。
 
 >type can
+
 指定网络接口的类型为CAN。
 
 >bitrate 500000
+
 设置CAN总线的比特率（或速率）。这里设置为 500000 bps（比特每秒），即500 kbps（千比特每秒）。
 
 专门为CAN FD模式设置的数据阶段比特率。这里设置为 1000000 bps（比特每秒），即1 Mbps（兆比特每秒）。
 
 >berr-reporting on
+
 启用总线错误报告。这允许系统报告网络层面的错误。
 
 >fd on
+
 启用CAN FD（Flexible Data-rate）模式。CAN FD是传统CAN的扩展，支持更高的数据传输速率和更大的数据负载。
 
 **总的来说，这个命令配置can0接口为CAN FD模式，设置总线比特率为500 kbps，数据比特率为1 Mbps，并启用错误报告和CAN FD模式。这样的配置通常用于需要更高数据传输速率的应用场景。**
