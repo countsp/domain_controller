@@ -68,6 +68,7 @@ CAN（Controller Area Network）协议包含了几个关键特性，使其成为
         当检测到错误时，CAN协议定义了一系列的错误处理过程。例如，如果一个节点检测到错误，它会发送一个错误帧来通知其他节点。此外，节点有复杂的错误处理机制来记录错误状态，并在出现重复错误时采取措施，如从总线上断开。
 #### CAN命令
 > ip link set can0 up type can bitrate 500000 dbitrate 1000000 berr-reporting on fd on
+> 
 这个命令是用来配置CAN网络接口的，具体来说，是将CAN接口（如can0）设置为使用CAN FD（Flexible Data-rate）模式，并指定总线比特率和数据比特率。下面是命令的分段和各部分的作用：
 
     ip link set can0 up
