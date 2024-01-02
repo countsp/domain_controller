@@ -1,10 +1,7 @@
 # domain_contoller S32G/ORIN
-##ORIN
-###CAN
-####CAN/CAN-FD区别
-can信号和can-fd的相同与不同点
-ChatGPT
-
+## ORIN
+### CAN
+#### CAN/CAN-FD区别
 CAN（Controller Area Network）和CAN FD（CAN with Flexible Data-rate）是两种汽车和工业网络通信协议。它们有一些相似点，但也有关键的不同。以下是它们的相同点和不同点：
 相同点
 
