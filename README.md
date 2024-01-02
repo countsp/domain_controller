@@ -1,7 +1,7 @@
 # domain_contoller S32G/ORIN
 ## ORIN
 ### CAN
-#### CAN/CAN-FD区别
+1. CAN/CAN-FD区别
 CAN（Controller Area Network）和CAN FD（CAN with Flexible Data-rate）是两种汽车和工业网络通信协议。它们有一些相似点，但也有关键的不同。以下是它们的相同点和不同点：
 ##### 相同点
 基础协议：
@@ -27,7 +27,7 @@ CAN（Controller Area Network）和CAN FD（CAN with Flexible Data-rate）是两
 
 总的来说，CAN FD 是对传统 CAN 协议的扩展和改进，提供了更高的数据传输速率和更大的数据有效载荷，使其更适合于数据量较大的现代汽车和工业应用。
 
-#### can的消息优先级、非破坏性仲裁、错误检测和处理是什么
+2. can的消息优先级、非破坏性仲裁、错误检测和处理是什么
 CAN（Controller Area Network）协议包含了几个关键特性，使其成为汽车和工业环境中可靠的通信系统。这些特性包括消息优先级、非破坏性仲裁、错误检测和处理：
 消息优先级（Message Priority）：
         CAN网络上的每条消息都有一个唯一的标识符（ID）。这个标识符不仅用于标识消息，还决定了消息的优先级。标识符值较低的消息具有较高的优先级。在总线上发送消息时，如果有多个节点同时尝试发送消息，具有最高优先级（即最低ID值）的消息将被首先传输。
@@ -38,7 +38,7 @@ CAN（Controller Area Network）协议包含了几个关键特性，使其成为
 错误处理（Error Handling）：
         当检测到错误时，CAN协议定义了一系列的错误处理过程。例如，如果一个节点检测到错误，它会发送一个错误帧来通知其他节点。此外，节点有复杂的错误处理机制来记录错误状态，并在出现重复错误时采取措施，如从总线上断开。
 
-#### CAN命令
+3. CAN命令
 > ip link set can0 up type can bitrate 500000 dbitrate 1000000 berr-reporting on fd on
 
 这个命令是用来配置CAN网络接口的，具体来说，是将CAN接口（如can0）设置为使用CAN FD（Flexible Data-rate）模式，并指定总线比特率和数据比特率。下面是命令的分段和各部分的作用：
