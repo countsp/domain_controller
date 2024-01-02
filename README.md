@@ -4,7 +4,7 @@
 #### 1.CAN/CAN-FD区别
 CAN（Controller Area Network）和CAN FD（CAN with Flexible Data-rate）是两种汽车和工业网络通信协议。它们有一些相似点，但也有关键的不同。以下是它们的相同点和不同点：
 - 相同点
--
+
 基础协议：
         CAN FD 基于标准 CAN 协议，因此它们共享许多基本特性，如消息优先级、非破坏性仲裁、错误检测和处理。
 物理层：
@@ -15,7 +15,7 @@ CAN（Controller Area Network）和CAN FD（CAN with Flexible Data-rate）是两
         CAN和CAN FD 网络都支持类似的网络拓扑，如总线、星形或环形结构。
 
 - 不同点
-- 
+
 数据传输速率：
         CAN FD 的主要优势是更高的数据传输速率。标准 CAN 通常限制在 1 Mbps，而 CAN FD 可以支持高达 5 Mbps 甚至更高的数据速率。
 数据有效载荷大小：
