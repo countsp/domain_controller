@@ -59,14 +59,23 @@ c32W 设备ip:192.168.1.203 msop_port: 2374  difop_port: 2375
 
 **启动操作**:
 ```
-# 启动设备
-# for ch128 lidar
+# for c32w lidar
+
+# source工作目录
+source ~/lsc32w/install/setup.bash
+
+# 启动launch节点方法
+ros2 launch lslidar_driver lslidar_c32_launch.py
+
+```
+```
+# for cb64s1_1 and cb64s1_2 and ch128
 
 # source工作目录
 source ~/lslidar128_ws/install/setup.bash
 
-# 启动launch节点方法（以备注形式标注）
-# ros2 launch lslidar_driver lslidar_ch128x1_launch.py  
+# 启动launch节点方法
+ros2 launch lslidar_driver lslidar_ch128x1_ch64w_double_launch.py 
 ```
 ##### requirements
 c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)次2
@@ -82,4 +91,5 @@ ETH2为LAN-1 3*激光雷达口，ip为192.168.102 ，在 Wired connetion 3 中�
 
 TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设置
 ![Screenshot from 2024-03-05 15-25-05](https://github.com/countsp/domain_controller/assets/102967883/daab9565-d1a3-4124-bcf3-d9062299e234)
+
 
