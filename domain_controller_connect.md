@@ -55,6 +55,8 @@ ch64s1_1（左侧）设备：ip：192.168.1.201  msop_port: 2370  difop_port: 23
 
 ch64s1_2 (右侧) 设备：ip：192.168.1.202  msop_port: 2372  difop_port: 2373
 
+c32W 设备ip:192.168.1.203 msop_port: 2374  difop_port: 2375
+
 **启动操作**:
 ```
 # 启动设备
@@ -66,3 +68,18 @@ source ~/lslidar128_ws/install/setup.bash
 # 启动launch节点方法（以备注形式标注）
 # ros2 launch lslidar_driver lslidar_ch128x1_launch.py  
 ```
+##### requirements
+c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)次2
+
+ping通192.168.102与192.168.1.103（200,201,202可能ping不通）
+
+网络设置：
+
+![Screenshot from 2024-03-05 15-20-54](https://github.com/countsp/domain_controller/assets/102967883/2383d2ca-192c-44c4-aa33-76b67c919cc0)
+
+ETH2为LAN-1 3*激光雷达口，ip为192.168.102 ，在 Wired connetion 3 中设置
+![Screenshot from 2024-03-05 15-26-08](https://github.com/countsp/domain_controller/assets/102967883/2e5809e5-a6ff-49c0-bfbc-cc114d721aa7)
+
+TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设置
+![Screenshot from 2024-03-05 15-25-05](https://github.com/countsp/domain_controller/assets/102967883/daab9565-d1a3-4124-bcf3-d9062299e234)
+
