@@ -33,6 +33,7 @@ source ~/lslidar128_ws/install/setup.bash
 # ros2 launch lslidar_driver lslidar_ch128x1_launch.py  
 ```
 
+
 ---
 
 ### 2.激光雷达
@@ -45,29 +46,24 @@ colcon build
 
 **接线**：
 
-通过四合一车载以太网接入域控上LAN-1接口(在域控以太网接口中ip设置为192.168.1.102)
+ch128x1与cb64s1通过四合一车载以太网接入域控上LAN-1接口(在域控以太网接口中ip设置为192.168.1.102)
 
 ##### 在win上位机中配置设备ip
+**接192.168.1.102：**
 
-ch128设备：ip：192.168.1.200  msop_port: 2368  difop_port: 2369
+ch128x1设备：ip：192.168.1.200  msop_port: 2368  difop_port: 2369
 
 ch64s1_1（左侧）设备：ip：192.168.1.201  msop_port: 2370  difop_port: 2371
 
 ch64s1_2 (右侧) 设备：ip：192.168.1.202  msop_port: 2372  difop_port: 2373
 
+**接192.168.1.103：**
+
+通过usb以太网接入域控usb(在域控以太网接口中ip设置为192.168.1.103) 重新买千兆转换器
+
 c32W 设备ip:192.168.1.203 msop_port: 2374  difop_port: 2375
 
 **启动操作**:
-```
-# for c32w lidar
-
-# source工作目录
-source ~/lsc32w/install/setup.bash
-
-# 启动launch节点方法
-ros2 launch lslidar_driver lslidar_c32_launch.py
-
-```
 ```
 # for cb64s1_1 and cb64s1_2 and ch128
 
@@ -77,6 +73,18 @@ source ~/lslidar128_ws/install/setup.bash
 # 启动launch节点方法
 ros2 launch lslidar_driver lslidar_ch128x1_ch64w_double_launch.py 
 ```
+
+```
+# for c32w lidar（自启动rviz2）
+
+# source工作目录
+source ~/lsc32w/install/setup.bash
+
+# 启动launch节点方法
+ros2 launch lslidar_driver lslidar_c32_launch.py
+
+```
+![Screenshot from 2024-03-05 15-50-43](https://github.com/countsp/domain_controller/assets/102967883/9634d29c-c45e-4a67-af73-4474247aae87)
 ##### requirements
 c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)次2
 
