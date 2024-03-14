@@ -1,6 +1,8 @@
 # check can1 message in terminal
+```
 sudo ip link set can1 up type can bitrate 500000 dbitrate 1000000 berr-reporting on fd on
 candump can1 &
+```
 
 # can2rostopic arouse imu ros2 topic
 ```
