@@ -1,10 +1,10 @@
-# check can1 message in terminal
+# check for CAN1 message in terminal
 ```
 sudo ip link set can1 up type can bitrate 500000 dbitrate 1000000 berr-reporting on fd on
 candump can1 &
 ```
 
-# can2rostopic arouse imu ros2 topic
+# can2rostopic arouse imu & navsat ros2 topic
 ```
 source can_reader/install/setup.bash
 ros2 run can_reader can2ros_imu_nav_node
