@@ -22,11 +22,16 @@ ament_target_dependencies(can_reader_cont_ros_node rclcpp sensor_msgs)
 add_executable(can2ros_imu_nav_node src/can2ros_imu_nav.cpp)
 ament_target_dependencies(can2ros_imu_nav_node rclcpp sensor_msgs)
 
+add_executable(can2ros_imu_nav_gnss_pose_node src/can2ros_imu_nav_gnss_pose.cpp)
+ament_target_dependencies(can2ros_imu_nav_gnss_pose_node rclcpp sensor_msgs geometry_msgs)
+
 install(TARGETS
   can_reader_node
   can_reader_cont_node
   can_reader_cont_ros_node
   can2ros_imu_nav_node
+  can2ros_imu_nav_gnss_pose_node
+  
   DESTINATION lib/${PROJECT_NAME})
   
 if(BUILD_TESTING)
