@@ -54,3 +54,13 @@ saveconfig
 7.开始配置--上电，信息应该更新了
 
 8.将DTU上TX/RX交换，与组合导航GNSS-COM1相连接
+
+###### 时间同步
+
+1.将GNSS-COM1与Windows通过rs232-usb连接
+
+2.打开SSCOM输入
+```
+log gprmc ontime 1
+saveconfig
+```
