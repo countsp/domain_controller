@@ -21,14 +21,20 @@ DTU模块提供定位差分信号，组合导航MS61111接收差分信号进行�
 
 ###### （optional）使用STRSVR软件可以代替DTU模块产生定位差分信号：
 1.将GNSS-COM1与Windows通过rs232-usb连接
+
 2.如图设置Input Output
+
 2. Input-Opt中配置千寻账号
+
 3. Output-Opt中配置输出COM口
+
 4.点击start，Input与Output灯闪烁
+
 5.下方应该显示经纬度信息
+
 6.打开SSCOM输入
 ```
-log gprmc ontime 1
+log gpgga ontime 1
 saveconfig
 ```
 
