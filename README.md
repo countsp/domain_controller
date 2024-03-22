@@ -57,10 +57,12 @@ saveconfig
 
 ###### 时间同步
 
-1.将GNSS-COM1与Windows通过rs232-usb连接
+1.将GNSS-COM2与Windows通过rs232-usb连接
 
 2.打开SSCOM输入
 ```
+unlog gpgga() (为了清除之前gpgga的配置)
 log gprmc ontime 1
 saveconfig
+config com2 9600
 ```
