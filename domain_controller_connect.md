@@ -163,4 +163,10 @@ config com2 9600（设置9600波特率）
 
 ![image](https://github.com/countsp/domain_controller/assets/102967883/49f7d5ed-4e55-4e3f-afd3-1543a7e39553)
 
-4.以太网连接电脑，配置以太网ip（192.168.1.203），在上位机上设置msop_port: 2374 difop_port: 2375，在Param中点击Parameter，可见PPS Status变为Connect
+6.以太网连接电脑，配置以太网ip（192.168.1.203），在上位机上设置msop_port: 2374 difop_port: 2375，在Param中点击Parameter，可见PPS Status变为Connect
+
+![c320327](https://github.com/countsp/domain_controller/assets/102967883/426cadcb-a529-4759-b341-6de59566c4ee)
+
+```
+注意，CH128X1的datasheet有误，pin6中（椭圆头），1号接PPS，5号接地，6号接GPRMC
+```
