@@ -55,7 +55,7 @@ saveconfig
 
 8.将DTU上TX/RX交换，与组合导航GNSS-COM1相连接
 
-###### 时间同步
+###### 时间同步（MS-6111组合导航与镭神C32w/CH128X1/CB64S20进行PPS硬同步，以C32w为例）
 
 1.将GNSS-COM2与Windows通过rs232-usb连接
 
@@ -64,5 +64,16 @@ saveconfig
 unlog gpgga() (为了清除之前gpgga的配置)
 log gprmc ontime 1
 saveconfig
-config com2 9600
+config com2 9600（设置9600波特率）
 ```
+
+
+3.将GNSS-COM2（RS232）的TX引出，作为GPRMC数据线，连接到C32w的GPS_Rec线上（P4的pin3）
+
+![image](https://github.com/countsp/domain_controller/assets/102967883/49f7d5ed-4e55-4e3f-afd3-1543a7e39553)
+
+4.PPS线从组合导航引出，连接到C32w的GPS_PPS线上（P4的pin2）
+
+5.GND线从从组合导航引出，连接到C32w的GPS_GND线上（P4的pin5）
+
+4.
