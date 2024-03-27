@@ -86,9 +86,9 @@ ros2 launch lslidar_driver lslidar_c32_launch.py
 ```
 ![Screenshot from 2024-03-05 15-50-43](https://github.com/countsp/domain_controller/assets/102967883/9634d29c-c45e-4a67-af73-4474247aae87)
 ##### requirements
-c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)次2
+c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)
 
-ping通192.168.102与192.168.1.103（200,201,202可能ping不通）
+ping通192.168.102与192.168.1.103（200,201,202可能ping不通，不影响）
 
 网络设置：
 
@@ -111,15 +111,22 @@ DTU模块提供定位差分信号，组合导航MS61111接收差分信号进行�
 
 2.打开STRSVR如图设置Input Output
 
+![image](https://github.com/countsp/domain_controller/assets/102967883/5eaa5d9c-7f98-4795-ae21-22735d70c4cf)
+
 2. Input-Opt中配置千寻账号
+
+![inputoption](https://github.com/countsp/domain_controller/assets/102967883/0d9e52b7-12bb-494f-8b2e-d6d516edb7f1)
+
 
 3. Output-Opt中配置输出COM口
 
-4.点击start，Input与Output灯闪烁
+![image](https://github.com/countsp/domain_controller/assets/102967883/b4f94c2a-0695-4922-b293-4e09bae20b4a)
 
-5.下方应该显示经纬度信息
+4.点击start，Input与Output灯闪烁，下方应该显示经纬度信息
 
-6.打开SSCOM输入
+![image](https://github.com/countsp/domain_controller/assets/102967883/1a238163-14f1-4cbd-9287-3ebf65226523)
+
+5.打开SSCOM输入，固化设置
 ```
 log gpgga ontime 1
 saveconfig
@@ -163,10 +170,14 @@ config com2 9600（设置9600波特率）
 
 ![image](https://github.com/countsp/domain_controller/assets/102967883/49f7d5ed-4e55-4e3f-afd3-1543a7e39553)
 
-6.以太网连接电脑，配置以太网ip（192.168.1.203），在上位机上设置msop_port: 2374 difop_port: 2375，在Param中点击Parameter，可见PPS Status变为Connect
+6.以太网连接电脑，配置以太网ip（192.168.1.203），在上位机上设置msop_port: 2374 difop_port: 2375。
 
+在Param中点击Parameter，可见PPS Status变为Connect。（Enable。PPS相位统一设置，例如均为180）
+
+32线配置
 ![c320327](https://github.com/countsp/domain_controller/assets/102967883/426cadcb-a529-4759-b341-6de59566c4ee)
-
+64线配置
+![64](https://github.com/countsp/domain_controller/assets/102967883/87f5e6a6-a3d4-4861-8f0b-1cb781201f26)
 ```
 注意，CH128X1的datasheet有误，pin6中（椭圆头），1号接PPS，5号接地，6号接GPRMC
 ```
