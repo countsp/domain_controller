@@ -42,6 +42,7 @@ source ~/lslidar128_ws/install/setup.bash
 **要求：**
 
 在域控系统内能够以rostopic的格式看到摄像头信号
+
 **编译命令(以CH128X1为例)：**
 ```
 cd ~/lslidar128_ws
@@ -68,11 +69,11 @@ CB64S1_2 (右侧)   设备：ip：192.168.1.202  msop_port: 2372  difop_port: 23
 
 **接192.168.1.103（USB以太网）：**
 
-C32W  设备ip:192.168.1.203  msop_port: 2374  difop_port: 2375
+C32W    设备ip:192.168.1.203    msop_port: 2374    difop_port: 2375
 
-**启动操作**:
+**lidar启动操作**:
 ```
-# for cb64s1_1 and cb64s1_2 and ch128
+# for cb64s1_1 and cb64s1_2 and ch128x1
 
 # source工作目录
 source ~/lslidar128_ws/install/setup.bash
