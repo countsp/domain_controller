@@ -157,7 +157,9 @@ saveconfig
 
 8.将DTU上TX/RX交换，与组合导航GNSS-COM1相连接
 
-###### 时间同步（MS-6111组合导航与镭神C32w/CH128X1/CB64S20进行PPS硬同步，以C32w为例）
+---
+
+### 时间同步（MS-6111组合导航与镭神C32w/CH128X1/CB64S20进行PPS硬同步，以C32w为例）
 
 1.将GNSS-COM2与Windows通过rs232-usb连接
 
