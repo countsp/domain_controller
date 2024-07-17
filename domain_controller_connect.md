@@ -109,6 +109,9 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 ![Screenshot from 2024-03-05 15-25-05](https://github.com/countsp/domain_controller/assets/102967883/daab9565-d1a3-4124-bcf3-d9062299e234)
 
 
+# 组合导航杆臂配置
+
+组合导航 com1通过 rs232链接到电脑
 
 ### 组合导航上DTU配置
 #### 流程
