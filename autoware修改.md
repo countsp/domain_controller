@@ -1,3 +1,5 @@
+[ref](https://blog.csdn.net/zardforever123/article/details/132538871)
+
 # 参数配置
 
 （1）修改 autoware.launch.xml 文件
