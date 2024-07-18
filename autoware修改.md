@@ -63,27 +63,28 @@
 如下节点，将/points_raw（frame_id为velodyne）（或者是你的雷达驱动输出）坐标转换到base_link（需要雷达外参），然后发布 /sensing/lidar/top/outlier_filtered/pointcloud和/sensing/lidar/concatenated/pointcloud
 
 ```
-
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <pcl_ros/transforms.hpp>
+#include <pcl_conversions/pcl_conversions.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/io/pcd_io.h>
 
 class LidarTransformNode : public rclcpp::Node
 {
 public:
-    // 构造函数
     LidarTransformNode() : Node("points_raw_transform_node")
     {
-        // 初始化坐标转换参数
-        // this->declare_parameter<double>("transform_x", 0.0);
-        // this->get_parameter("transform_x", transform_x);
+        // Declare parameters
         transform_x = this->declare_parameter("transform_x", 0.0);
         transform_y = this->declare_parameter("transform_y", 0.0);
         transform_z = this->declare_parameter("transform_z", 0.0);
         transform_roll = this->declare_parameter("transform_roll", 0.0);
         transform_pitch = this->declare_parameter("transform_pitch", 0.0);
         transform_yaw = this->declare_parameter("transform_yaw", 0.0);
+        RadiusOutlierFilter = this->declare_parameter("radius_outlier_filter", 0.1);
 
         std::cout << "velodyne to base_link:" << std::endl
                   << "  transform_x:    " << transform_x << std::endl
@@ -91,13 +92,14 @@ public:
                   << "  transform_z:    " << transform_z << std::endl
                   << "  transform_roll: " << transform_roll << std::endl
                   << "  transform_pitch:" << transform_pitch << std::endl
-                  << "  transform_yaw:  " << transform_yaw << std::endl;
+                  << "  transform_yaw:  " << transform_yaw << std::endl
+                  << "  RadiusOutlierFilter:  " << RadiusOutlierFilter << std::endl;
 
-        // Initialize translation
+        // Initialize transformation parameters
         transform_stamp.transform.translation.x = transform_x;
         transform_stamp.transform.translation.y = transform_y;
         transform_stamp.transform.translation.z = transform_z;
-        // Initialize rotation (quaternion)
+       
         tf2::Quaternion quaternion;
         quaternion.setRPY(transform_roll, transform_pitch, transform_yaw);
         transform_stamp.transform.rotation.x = quaternion.x();
@@ -105,64 +107,63 @@ public:
         transform_stamp.transform.rotation.z = quaternion.z();
         transform_stamp.transform.rotation.w = quaternion.w();
 
-        // 创建发布者
+        // Create publishers
         publisher_1 = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-            "/sensing/lidar/top/outlier_filtered/pointcloud",
-            10);
+            "/sensing/lidar/top/outlier_filtered/pointcloud", 10);
         publisher_2 = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-            "/sensing/lidar/concatenated/pointcloud",
-            10);
+            "/sensing/lidar/concatenated/pointcloud", 10);
 
-        // 订阅原始点云消息
+        // Subscribe to raw point cloud messages
         subscription_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-            "/points_raw",
-            10,
+            "/c32/lslidar_point_cloud", 10,
             std::bind(&LidarTransformNode::pointCloudCallback, this, std::placeholders::_1));
     }
 
 private:
     void pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
     {
-        // 过滤掉距离传感器较近的点
+        // Filter out points close to the sensor
         pcl::PointCloud<pcl::PointXYZI>::Ptr xyz_cloud(new pcl::PointCloud<pcl::PointXYZI>);
         pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_output(new pcl::PointCloud<pcl::PointXYZI>);
         pcl::fromROSMsg(*msg, *xyz_cloud);
         for (size_t i = 0; i < xyz_cloud->points.size(); ++i)
         {
-          if (sqrt(xyz_cloud->points[i].x * xyz_cloud->points[i].x + xyz_cloud->points[i].y * xyz_cloud->points[i].y +
-                   xyz_cloud->points[i].z * xyz_cloud->points[i].z) >= RadiusOutlierFilter && !isnan(xyz_cloud->points[i].z))
-          {
-            pcl_output->points.push_back(xyz_cloud->points.at(i));
-          }
+            if (sqrt(xyz_cloud->points[i].x * xyz_cloud->points[i].x + xyz_cloud->points[i].y * xyz_cloud->points[i].y +
+                     xyz_cloud->points[i].z * xyz_cloud->points[i].z) >= RadiusOutlierFilter && !std::isnan(xyz_cloud->points[i].z))
+            {
+                pcl_output->points.push_back(xyz_cloud->points.at(i));
+            }
         }
         sensor_msgs::msg::PointCloud2 output;
         pcl::toROSMsg(*pcl_output, output);
         output.header = msg->header;
-    
-        // 执行坐标转换
+
+        // Perform coordinate transformation
         sensor_msgs::msg::PointCloud2 transformed_cloud;
         pcl_ros::transformPointCloud("base_link", transform_stamp, output, transformed_cloud);
-    
-        // 发布转换后的点云消息
+
+        // Publish the transformed point cloud messages
         publisher_1->publish(transformed_cloud);
         publisher_2->publish(transformed_cloud);
     }
-  
+
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr subscription_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_1, publisher_2;
 
     double transform_x, transform_y, transform_z, transform_roll, transform_pitch, transform_yaw;
+    double RadiusOutlierFilter;
     geometry_msgs::msg::TransformStamped transform_stamp;
 };
 
 int main(int argc, char **argv)
 {
-    // 初始化节点
+    // Initialize the node
     rclcpp::init(argc, argv);
 
-    // 创建实例
+    // Create an instance
     auto node = std::make_shared<LidarTransformNode>();
 
+    // Spin the node
     rclcpp::spin(node);
     rclcpp::shutdown();
 
@@ -170,10 +171,15 @@ int main(int argc, char **argv)
 }
 
 ```
+
+![Screenshot from 2024-07-18 10-58-59](https://github.com/user-attachments/assets/1a64e05d-19ce-4cdc-85d2-4b77f179bfca)
+
+
 ---
 
 ## imu
 修改发布话题名称为/sensing/imu/tamagawa/imu_raw以及坐标系为tamagawa/imu_link
+
 ![image](https://github.com/user-attachments/assets/ab54d4a4-f473-4327-921a-c526ecd8afde)
 
 ![image](https://github.com/user-attachments/assets/1f164687-db38-4d82-8cb4-b4c9824139a2)
