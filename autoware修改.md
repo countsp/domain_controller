@@ -257,3 +257,72 @@ ros2 run vehicle_info_util min_turning_radius_calculator.py
 source install/setup.bash
 ros2 launch sensor_driver senser_driver.launch.xml
 ```
+
+
+
+# 定位问题
+
+通过python代码设置base_link到map的tf，可以发现车辆的位置进行了改变，估计是ndt_scan_match没有正常工作，导致base_link到map的tf没有发布。
+
+手动发布tf前，地图小车距离远
+
+![Screenshot from 2024-07-26 17-22-03](https://github.com/user-attachments/assets/f5861058-e517-40c1-8083-39de1dccf200)
+
+```
+import rclpy
+from rclpy.node import Node
+from tf2_ros import StaticTransformBroadcaster
+from geometry_msgs.msg import TransformStamped
+import tf_transformations
+
+class StaticTFBroadcaster(Node):
+
+    def __init__(self):
+        super().__init__('static_tf2_broadcaster')
+        
+        # 创建一个StaticTransformBroadcaster对象
+        self.br = StaticTransformBroadcaster(self)
+        
+        # 创建一个TransformStamped消息，用来描述转换
+        static_transform_stamped = TransformStamped()
+        
+        # 填充消息的头部信息
+        static_transform_stamped.header.stamp = self.get_clock().now().to_msg()
+        static_transform_stamped.header.frame_id = 'map'
+        static_transform_stamped.child_frame_id = 'base_link'
+        
+        # 设置转换的位置（x, y, z）
+        static_transform_stamped.transform.translation.x = 35946.0
+        static_transform_stamped.transform.translation.y = 30360.0
+        static_transform_stamped.transform.translation.z = 0.5
+        
+        # 使用四元数设置旋转
+        # 这里的旋转是关于z轴旋转π/4弧度
+        q = tf_transformations.quaternion_from_euler(0, 0, -3.14159/4)
+        static_transform_stamped.transform.rotation.x = q[0]
+        static_transform_stamped.transform.rotation.y = q[1]
+        static_transform_stamped.transform.rotation.z = q[2]
+        static_transform_stamped.transform.rotation.w = q[3]
+
+        # 发送转换
+        self.br.sendTransform(static_transform_stamped)
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = StaticTFBroadcaster()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+
+手动发布tf后，相对距离变近
+![Screenshot from 2024-07-26 17-15-39](https://github.com/user-attachments/assets/5efc7b36-8f72-4747-adbc-1c624af67402)
+
+猜测是发布base_link到map的程序未启动
