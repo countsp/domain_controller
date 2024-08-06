@@ -326,3 +326,11 @@ if __name__ == '__main__':
 ![Screenshot from 2024-07-26 17-15-39](https://github.com/user-attachments/assets/5efc7b36-8f72-4747-adbc-1c624af67402)
 
 猜测是发布base_link到map的程序未启动
+
+
+发现downsample/pointcloud没有发布，发现 crop_box_component,voxel_grid_downsample_component,random_downsample_component 三个顺序执行的功能没有实现，在util.launch.py中 target_container 没有指向正确存在的容器, 发现use_pointcloud_container中没有置为true
+
+设置true后echo有数值
+
+![Screenshot from 2024-08-06 15-45-38](https://github.com/user-attachments/assets/14fa8f7f-a59c-44b8-ab13-c60c59745d30)
+
