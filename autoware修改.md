@@ -335,7 +335,11 @@ if __name__ == '__main__':
 ![Screenshot from 2024-08-06 15-45-38](https://github.com/user-attachments/assets/14fa8f7f-a59c-44b8-ab13-c60c59745d30)
 
 
+# Map_fit_height功能异常，车辆显示在天上
 
+![Screenshot from 2024-08-13 14-08-00](https://github.com/user-attachments/assets/006d16f9-cd45-4558-818d-efd602ffc646)
+
+## 解决方案
 将pose_initializer.launch.xml中 remap 注释，原因是map_height_filter中的service和gnss_module中的client服务名对不上
 
 ```
@@ -343,3 +347,6 @@ if __name__ == '__main__':
     <!-- <remap from="fit_map_height" to="/localization/util/fit_map_height"/> -->
 ```
 rviz_adaptors.launch.xml也可以注释
+
+## 原因
+map_height_filter中的提供service，在接入RequestHeightFitting类型(自定义的tier4类型的posewithcovstamped)请求后，返回一个RequestHeightFitting类型
