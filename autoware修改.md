@@ -350,3 +350,5 @@ rviz_adaptors.launch.xml也可以注释
 
 ## 原因
 map_height_filter中的提供service，在接入RequestHeightFitting类型(自定义的tier4类型的posewithcovstamped)请求后，返回一个RequestHeightFitting类型
+
+![Screenshot from 2024-08-13 14-17-32](https://github.com/user-attachments/assets/cf10cb4c-ffcc-49dd-bcbc-33fb6f124fc9)
