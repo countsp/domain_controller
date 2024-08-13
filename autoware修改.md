@@ -352,3 +352,16 @@ rviz_adaptors.launch.xml也可以注释
 map_height_filter中的提供service，在接入RequestHeightFitting类型(自定义的tier4类型的posewithcovstamped)请求后，返回一个RequestHeightFitting类型
 
 ![Screenshot from 2024-08-13 14-17-32](https://github.com/user-attachments/assets/cf10cb4c-ffcc-49dd-bcbc-33fb6f124fc9)
+
+
+# 报错
+```
+1723539990.8141563 [ndt_scan_matcher-39] [WARN] [1723539990.813394640] [localization.pose_estimator.ndt_scan_matcher]: Nearest Voxel Transformation Likelihood is below the threshold. Score: 0.000000, Threshold: 2.300000
+```
+## 原因
+
+点云和地图距离过大没有做匹配。
+
+```
+1723539991.3843520 [ndt_scan_matcher-39] [WARN] [1723539991.383770924] [localization.pose_estimator.ndt_scan_matcher]: Validation error. The distance from reference position to target position is 47046.217471[m] (the tolerance is 10.000000[m]).
+```
