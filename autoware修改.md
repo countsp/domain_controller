@@ -334,3 +334,12 @@ if __name__ == '__main__':
 
 ![Screenshot from 2024-08-06 15-45-38](https://github.com/user-attachments/assets/14fa8f7f-a59c-44b8-ab13-c60c59745d30)
 
+
+
+将pose_initializer.launch.xml中 remap 注释，原因是map_height_filter中的service和gnss_module中的client服务名对不上
+
+```
+<node pkg="pose_initializer" exec="map_height_fitter" name="map_height_fitter">
+    <!-- <remap from="fit_map_height" to="/localization/util/fit_map_height"/> -->
+```
+rviz_adaptors.launch.xml也可以注释
