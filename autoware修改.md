@@ -365,3 +365,14 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 ```
 1723539991.3843520 [ndt_scan_matcher-39] [WARN] [1723539991.383770924] [localization.pose_estimator.ndt_scan_matcher]: Validation error. The distance from reference position to target position is 47046.217471[m] (the tolerance is 10.000000[m]).
 ```
+
+此报错在 pose_array_interpolator.cpp 中 validate_position_difference 函数 ，由ndt_scan_matcher_core.cpp中 实例化 PoseArrayInterpolator模块，PoseArrayInterpolator模块构造函数中调用。
+
+**实例化**
+
+```
+PoseArrayInterpolator interpolator(
+    this, sensor_ros_time, initial_pose_msg_ptr_array_, initial_pose_timeout_sec_,
+    initial_pose_distance_tolerance_m_);
+```
+找到 /ekf_pose_with_covariance 实际为 /localization/pose_twist_fusion_filter/biased_pose_with_covariance
