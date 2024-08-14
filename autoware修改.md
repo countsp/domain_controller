@@ -368,11 +368,29 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 
 此报错在 pose_array_interpolator.cpp 中 validate_position_difference 函数 ，由ndt_scan_matcher_core.cpp中 实例化 PoseArrayInterpolator模块，PoseArrayInterpolator模块构造函数中调用。
 
-**实例化**
+**流程**
 
-```
-PoseArrayInterpolator interpolator(
-    this, sensor_ros_time, initial_pose_msg_ptr_array_, initial_pose_timeout_sec_,
-    initial_pose_distance_tolerance_m_);
-```
 找到 /ekf_pose_with_covariance 实际为 /localization/pose_twist_fusion_filter/biased_pose_with_covariance
+这topic是EKFLocalizer实例化时，由EKFLocalizer::timercallback()的EKFLocalizer::publishEstimateResult()的发布
+
+NDTScanMatcher::callback_initial_pose(const geometry_msgs::msg::PoseWithCovarianceStamped::ConstSharedPtr **initial_pose_msg_ptr**)
+
+                            |
+                            |
+                            | 
+                            |
+                            
+**initial_pose_msg_ptr_array_**.push_back(**initial_pose_msg_ptr**);
+                            |
+                            |
+                            | 在 void NDTScanMatcher::callback_sensor_points()中
+                            |
+                            |                            
+  PoseArrayInterpolator interpolator(
+    this, sensor_ros_time, **initial_pose_msg_ptr_array_**, initial_pose_timeout_sec_,
+    initial_pose_distance_tolerance_m_);
+                            |
+                            |
+                            |              
+                            |                            
+    
