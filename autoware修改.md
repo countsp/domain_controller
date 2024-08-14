@@ -376,21 +376,32 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 NDTScanMatcher::callback_initial_pose(const geometry_msgs::msg::PoseWithCovarianceStamped::ConstSharedPtr **initial_pose_msg_ptr**)
 
                             |
+                            
                             |
+                            
                             | 
+                            
                             |
                             
 **initial_pose_msg_ptr_array_**.push_back(**initial_pose_msg_ptr**);
+
                             |
+                            
                             |
+                            
                             | 在 void NDTScanMatcher::callback_sensor_points()中
+                            
                             |
+                            
                             |                            
   PoseArrayInterpolator interpolator(
     this, sensor_ros_time, **initial_pose_msg_ptr_array_**, initial_pose_timeout_sec_,
     initial_pose_distance_tolerance_m_);
                             |
+                            
                             |
-                            |              
+                            
+                            |        
+                            
                             |                            
     
