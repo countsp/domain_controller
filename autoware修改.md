@@ -373,7 +373,22 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 找到 /ekf_pose_with_covariance 实际为 /localization/pose_twist_fusion_filter/biased_pose_with_covariance
 这topic是EKFLocalizer实例化时，由EKFLocalizer::timercallback()的EKFLocalizer::publishEstimateResult()的发布
 
-NDTScanMatcher::callback_initial_pose(const geometry_msgs::msg::PoseWithCovarianceStamped::ConstSharedPtr **initial_pose_msg_ptr**)
+                            |
+                            | "ekf_pose_with_covariance" 实际为 "/localization/pose_twist_fusion_filter/biased_pose_with_covariance"
+                            |
+                            |                            
+initial_pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
+    "ekf_pose_with_covariance", 100, //  /localization/pose_twist_fusion_filter/biased_pose_with_covariance
+    std::bind(&NDTScanMatcher::**callback_initial_pose**, this, std::placeholders::_1),
+    initial_pose_sub_opt);
+                            |
+                            
+                            |
+                            
+                            | 
+                            
+                            |
+NDTScanMatcher::**callback_initial_pose**(const geometry_msgs::msg::PoseWithCovarianceStamped::ConstSharedPtr **initial_pose_msg_ptr**)
 
                             |
                             
@@ -397,6 +412,7 @@ NDTScanMatcher::callback_initial_pose(const geometry_msgs::msg::PoseWithCovarian
   PoseArrayInterpolator interpolator(
     this, sensor_ros_time, **initial_pose_msg_ptr_array_**, initial_pose_timeout_sec_,
     initial_pose_distance_tolerance_m_);
+    
                             |
                             
                             |
