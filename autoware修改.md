@@ -354,7 +354,7 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 ![Screenshot from 2024-08-13 14-17-32](https://github.com/user-attachments/assets/cf10cb4c-ffcc-49dd-bcbc-33fb6f124fc9)
 
 
-# 报错
+# 报错（修改了实时数据源不报错）
 ```
 1723539990.8141563 [ndt_scan_matcher-39] [WARN] [1723539990.813394640] [localization.pose_estimator.ndt_scan_matcher]: Nearest Voxel Transformation Likelihood is below the threshold. Score: 0.000000, Threshold: 2.300000
 ```
@@ -371,10 +371,21 @@ map_height_filter中的提供service，在接入RequestHeightFitting类型(自�
 **流程**
 
 找到 /ekf_pose_with_covariance 实际为 /localization/pose_twist_fusion_filter/biased_pose_with_covariance
-这topic是EKFLocalizer实例化时，由EKFLocalizer::timercallback()的EKFLocalizer::publishEstimateResult()的发布
+这topic是EKFLocalizer实例化时，由EKFLocalizer::timercallback()的EKFLocalizer::publishEstimateResult()的发布.
 
+ekf_localizer.cpp
+  **pose_cov**.header.stamp = current_time;
+  **pose_cov**.header.frame_id = current_ekf_pose_.header.frame_id;
+  **pose_cov**.pose.pose = current_ekf_pose_.pose;
+  **pose_cov**.pose.covariance = ekfCovarianceToPoseMessageCovariance(P);
                             |
-                            | "ekf_pose_with_covariance" 实际为 "/localization/pose_twist_fusion_filter/biased_pose_with_covariance"
+                            |
+                            |
+                            |
+pub_pose_cov_ = create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("ekf_pose_with_covariance", 1);
+        pub_pose_cov_->publish(**pose_cov**);
+                            |
+                            | **"ekf_pose_with_covariance"** 实际为 "/localization/pose_twist_fusion_filter/biased_pose_with_covariance"
                             |
                             |                            
 initial_pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
@@ -421,3 +432,131 @@ NDTScanMatcher::**callback_initial_pose**(const geometry_msgs::msg::PoseWithCova
                             
                             |                            
     
+
+
+# 报错
+```
+1723612734.3855934 [ndt_scan_matcher-39] [WARN] [1723612734.385140977] [localization.pose_estimator.ndt_scan_matcher]: Nearest Voxel Transformation Likelihood is below the threshold. Score: 2.295000, Threshold: 2.300000
+```
+**INPUT SOURCE**                                                                                                        
+    **ndt_scan_matcher_core.cpp**
+    sensor_points_sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
+    "**/localization/util/downsample/pointcloud**", rclcpp::SensorDataQoS().keep_last(points_queue_size),
+    std::bind(&NDTokScanMatcher::**callback_sensor_points**, this, std::placeholders::_1), main_sub_opt);
+
+
+**INPUT TARGET**
+   **map_module.cpp**
+   map_points_sub_ = node->create_subscription<sensor_msgs::msg::PointCloud2>(
+    "**pointcloud_map**", rclcpp::QoS{1}.transient_local(),
+    std::bind(&MapModule::**callback_map_points**, this, std::placeholders::_1), map_sub_opt);
+
+void MapModule::**callback_map_points**
+                (sensor_msgs::msg::PointCloud2::ConstSharedPtr **map_points_msg_ptr**)
+{
+  pcl::fromROSMsg(*map_points_msg_ptr, *map_points_ptr);
+  **new_ndt**.setInputTarget(map_points_ptr);
+  auto output_cloud = std::make_shared<pcl::PointCloud<PointSource>>();
+  new_ndt.align(*output_cloud);
+  ndt_ptr_mutex_->lock();
+  ***ndt_ptr_** = **new_ndt**;
+}
+
+                            |
+                            
+                            |
+                            
+                            |        
+                            
+                            | 
+                            
+    ndt_ptr_->setInputSource(sensor_points_baselinkTF_ptr);
+    
+                            |
+                            
+                            |
+                            
+                            |        
+                            
+                            |   
+    
+  ndt_ptr_->align(***output_cloud**, **initial_pose_matrix**);
+  const pclomp::NdtResult **ndt_result** = **ndt_ptr_**->getResult();
+  
+                            |
+                            
+                            |
+                            
+                            |        
+                            
+                            |   
+                            
+bool is_ok_converged_param = validate_converged_param(
+**ndt_result.transform_probability**, ndt_result.nearest_voxel_transformation_likelihood);
+bool is_converged = is_ok_iteration_num && is_ok_converged_param;
+static size_t skipping_publish_num = 0;
+
+                            |
+                            
+                            |
+                            
+                            |        
+                            
+                            |   
+                            
+bool NDTScanMatcher::validate_converged_param(
+
+const double & **transform_probability**, const double & nearest_voxel_transformation_likelihood)
+
+{
+
+   bool is_ok_converged_param = false;
+
+   if (converged_param_type_ == ConvergedParamType::TRANSFORM_PROBABILITY) {
+
+   is_ok_converged_param = **validate_score**(
+
+   transform_probability, converged_param_transform_probability_, "Transform Probability");
+
+} else if (converged_param_type_ == ConvergedParamType::NEAREST_VOXEL_TRANSFORMATION_LIKELIHOOD) {
+
+   is_ok_converged_param = **validate_score**(
+
+   nearest_voxel_transformation_likelihood,
+
+   converged_param_nearest_voxel_transformation_likelihood_,
+
+   "Nearest Voxel Transformation Likelihood");
+
+} else {
+
+is_ok_converged_param = false;
+
+RCLCPP_ERROR_STREAM_THROTTLE(
+
+this->get_logger(), *this->get_clock(), 1, "Unknown converged param type.");
+
+}
+
+return is_ok_converged_param;
+
+}
+
+                            |
+                            
+                            |
+                            
+                            |        
+                            
+                            |     
+bool NDTScanMatcher::**validate_score**(
+  const double **score**, const double score_threshold, const std::string score_name)
+{
+  bool is_ok_score = score > score_threshold;
+  if (!is_ok_score) {
+    RCLCPP_WARN(
+      get_logger(), "%s is below the threshold. Score: %lf, Threshold: %lf", score_name.c_str(),
+      score, score_threshold);
+  }
+  return is_ok_score;
+}
