@@ -149,9 +149,6 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 
 4.点击start，Input与Output灯闪烁绿光，下方应该显示经纬度信息
 
-![Uploading 屏幕截图 2025-01-16 102452.png…]()
-
-
 5. 如果上面灯是黄色，重新点开Input->Opt，设置Mountpoint，下拉选一个，如果下拉菜单为空，点击Get Mountup再回到主界面点击Start，等待一会点击Close，再重新操作这一步。
 
  
