@@ -133,11 +133,15 @@ DTU模块提供定位差分信号，组合导航MS61111接收差分信号进行�
 
 ![image](https://github.com/countsp/domain_controller/assets/102967883/b4f94c2a-0695-4922-b293-4e09bae20b4a)
 
-4.点击start，Input与Output灯闪烁，下方应该显示经纬度信息
+4.点击start，Input与Output灯闪烁绿光，下方应该显示经纬度信息
 
-![image](https://github.com/countsp/domain_controller/assets/102967883/1a238163-14f1-4cbd-9287-3ebf65226523)
+![Uploading 屏幕截图 2025-01-16 102452.png…]()
 
-5.打开SSCOM输入，固化设置
+
+5. 如果上面是黄色，重新点开Input->Opt，设置Mountpoint，下拉选一个，如果下拉菜单为空，点击Get Mountup再回到主界面点击Start，等待一会点击Close，再重新操作这一步。
+
+ 
+6.（不再需要）打开SSCOM输入，固化设置
 ```
 log gpgga ontime 1
 saveconfig
