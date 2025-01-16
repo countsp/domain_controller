@@ -151,7 +151,7 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 ![Uploading 屏幕截图 2025-01-16 102452.png…]()
 
 
-5. 如果上面是黄色，重新点开Input->Opt，设置Mountpoint，下拉选一个，如果下拉菜单为空，点击Get Mountup再回到主界面点击Start，等待一会点击Close，再重新操作这一步。
+5. 如果上面灯是黄色，重新点开Input->Opt，设置Mountpoint，下拉选一个，如果下拉菜单为空，点击Get Mountup再回到主界面点击Start，等待一会点击Close，再重新操作这一步。
 
  
 6.（不再需要）打开SSCOM输入，固化设置
@@ -159,6 +159,7 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 log gpgga ontime 1
 saveconfig
 ```
+
 ### DTU模块提供定位差分信号，组合导航MS-61111接收差分信号进行解算，在GNSS-COM1输出精确位置报文。
 ###### DTU配置
 1.将DTU（COM1）与Windows通过rs232-usb连接
@@ -179,7 +180,7 @@ saveconfig
 
 ---
 
-### 时间同步（MS-6111组合导航与镭神C32w/CH128X1/CB64S20进行PPS硬同步，以C32w为例）
+# 时间同步（MS-6111组合导航与镭神C32w/CH128X1/CB64S20进行PPS硬同步，以C32w为例）
 
 1.将GNSS-COM2与Windows通过rs232-usb连接
 
