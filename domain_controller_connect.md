@@ -1,4 +1,4 @@
-#### 激光雷达车载以太网配置
+# 激光雷达车载以太网配置
 Ubuntu settings-Ethernet-IPV4
 设置为manual，Address为192.168.1.102，掩码为 255.255.255.0（102为LAN1，LAN1上设备都与102连接）
 
@@ -8,7 +8,7 @@ ifconfig后看到eth1
 
 ![Screenshot from 2024-03-04 21-23-47](https://github.com/countsp/domain_controller/assets/102967883/73a4290c-624e-4b2c-a73f-51b7dd04fcf7)
 
-## 域控连接
+# 域控连接
 ### 1.摄像头
 **要求**：在域控系统内能够以rostopic的格式看到摄像头信号，格式为sensor_msg::msg::Image
 
@@ -93,6 +93,7 @@ ros2 launch lslidar_driver lslidar_c32_launch.py
 
 ```
 ![Screenshot from 2024-03-05 15-50-43](https://github.com/countsp/domain_controller/assets/102967883/9634d29c-c45e-4a67-af73-4474247aae87)
+
 ##### requirements
 c32的yaml文件中设置c32_type: c32_70     # c32_32: 垂直角度是的30度c32   c32_70: 垂直角度是的70度c32(c32w)  c32_90: 垂直角度是的90度c32(ch32w)
 
