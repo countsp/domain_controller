@@ -109,16 +109,29 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 ![Screenshot from 2024-03-05 15-25-05](https://github.com/countsp/domain_controller/assets/102967883/daab9565-d1a3-4124-bcf3-d9062299e234)
 
 
-# 组合导航杆臂配置
+# 组合导航配置
 
-组合导航 com1通过 rs232链接到电脑
+1.组合导航 com1（配置输入口） 通过 rs232-usb 链接到电脑
 
-### 组合导航上DTU配置
+2.右上角配置端口，配置后应该显示已经连接。
+
+3.可以点击参数配置，点击更新，被更新处应该变红。
+
+4.(无需RTK)在走直线或者8字后，Inspva组合导航状态会变为3。
+
+5.(RTK) GNSS定位标志为1时，是单点解。4/5时，说明RTK已经接入。
+
+
+
+# RTK配置
+### 组合导航上RTK配置（在DTU失效时，使用能上网的笔记本代替）
+
 #### 流程
-DTU模块提供定位差分信号，组合导航MS61111接收差分信号进行解算，在GNSS-COM输出精确位置报文。
+
 
 ###### （optional）使用STRSVR软件可以代替DTU模块产生定位差分信号：
-1.将GNSS-COM1与Windows通过rs232-usb连接
+
+1.将GNSS-COM1与Windows通过rs232-usb连接（电脑输出差分信号给GNSS-COM1）
 
 2.打开STRSVR如图，设置Input和Output的Opt
 
@@ -146,7 +159,7 @@ DTU模块提供定位差分信号，组合导航MS61111接收差分信号进行�
 log gpgga ontime 1
 saveconfig
 ```
-
+### DTU模块提供定位差分信号，组合导航MS-61111接收差分信号进行解算，在GNSS-COM1输出精确位置报文。
 ###### DTU配置
 1.将DTU（COM1）与Windows通过rs232-usb连接
 
