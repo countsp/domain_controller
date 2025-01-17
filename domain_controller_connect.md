@@ -148,10 +148,14 @@ TP-Link为C32 USB以太网口 ，ip为192.168.103， 在TP-Link Ethernet中设�
 ![image](https://github.com/countsp/domain_controller/assets/102967883/b4f94c2a-0695-4922-b293-4e09bae20b4a)
 
 4.点击start，Input与Output灯闪烁绿光，下方应该显示经纬度信息
+![屏幕截图 2025-01-16 102452](https://github.com/user-attachments/assets/3df9879a-076d-400b-b1db-ed9a0df5b9dc)
 
 5. 如果上面灯是黄色，重新点开Input->Opt，设置Mountpoint，下拉选一个，如果下拉菜单为空，点击Get Mountup再回到主界面点击Start，等待一会点击Close，再重新操作这一步。
 
- 
+ ![屏幕截图 2025-01-16 100810](https://github.com/user-attachments/assets/866d38e5-1706-4975-a98a-d3cf8eef52dc)
+![屏幕截图 2025-01-16 102315](https://github.com/user-attachments/assets/5d690100-c2c8-4538-9fe1-8ea3678de530)
+![屏幕截图 2025-01-16 102405](https://github.com/user-attachments/assets/fe22fced-4e53-4804-acac-56879408d6c0)
+
 6.（不再需要）打开SSCOM输入，固化设置
 ```
 log gpgga ontime 1
