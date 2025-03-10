@@ -178,7 +178,20 @@ saveconfig
 
 7.开始配置--上电，信息应该更新了
 
-8.将DTU上TX/RX交换，与组合导航GNSS-COM1相连接
+8.将DTU上TX/RX交换，与组合导航GNSS-COM1相连接(使用交叉线或转换块)
+
+---
+
+# 确认ms-6111发送控制命令
+
+将gnss-com1连接电脑，打开sscom，输入
+```
+GPGGA COM1 1
+SAVECONFIG
+```
+![Screenshot from 2025-03-10 17-29-23](https://github.com/user-attachments/assets/9f432de9-8bc3-4ab3-8972-082e512aecb0)
+
+在sscom中应该有GPPPA报文发出
 
 ---
 
