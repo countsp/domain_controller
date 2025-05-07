@@ -53,9 +53,9 @@ bool CCameraMgr::initHandle()
 {
     m_pCameraBase->Init(); 
     setCamPublish();
-
-
-
+}
+    
+**setCamPublish()**
 
 
 ---
