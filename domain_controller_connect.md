@@ -34,8 +34,21 @@ source ~/lslidar128_ws/install/setup.bash
 # 启动launch节点方法（以备注形式标注）
 # ros2 launch lslidar_driver lslidar_ch128x1_launch.py  
 ```
+#### 天准
 
-
+tztek_camer_demo.cpp
+```
+cam[i] = new CCameraMgr(pipeid, video, weight, height, fps,format);
+cam[i]->Init(); 
+```
+mgr_camera.cpp
+```
+bool CCameraMgr::Init()
+{
+    creatHandle();
+    initHandle(); //---------------1.进入initHandle()
+}
+```
 ---
 
 ### 2.激光雷达
