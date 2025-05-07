@@ -36,19 +36,28 @@ source ~/lslidar128_ws/install/setup.bash
 ```
 #### 天准
 
-tztek_camer_demo.cpp
+**tztek_camer_demo.cpp**
 ```
 cam[i] = new CCameraMgr(pipeid, video, weight, height, fps,format);
 cam[i]->Init(); 
 ```
-mgr_camera.cpp
+**mgr_camera.cpp**
 ```
 bool CCameraMgr::Init()
 {
-    creatHandle();
+    creatHandle();//创建取图句柄m_pCameraBase，创建jpeg句柄m_pCamerajpeg
     initHandle(); //---------------1.进入initHandle()
 }
 ```
+bool CCameraMgr::initHandle()
+{
+    m_pCameraBase->Init(); 
+    setCamPublish();
+
+
+
+
+
 ---
 
 ### 2.激光雷达
