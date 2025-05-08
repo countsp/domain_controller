@@ -39,7 +39,7 @@ source ~/lslidar128_ws/install/setup.bash
 **tztek_camer_demo.cpp**
 ```
 cam[i] = new CCameraMgr(pipeid, video, weight, height, fps,format);
-cam[i]->Init(); 
+cam[i]->Init();
 ```
 **mgr_camera.cpp**
 ```
@@ -51,11 +51,59 @@ bool CCameraMgr::Init()
 ```
 bool CCameraMgr::initHandle()
 {
-    m_pCameraBase->Init(); 
+    m_pCameraBase->Init(); //阻塞形式打开设备、初始化内存
     setCamPublish();
+    m_pCamerajpeg->Init(); 
 }
     
 **setCamPublish()**
+设置m_Cb为CCameraMgr::callbackImage回调
+
+**m_pCamerajpeg->Init()**
+m_pYuv = new unsigned char[m_dwWidth * m_dwHeight * 3 / 2];
+createHandle();
+
+**bool CMgrCameraJpegEnc::createHandle()**
+设置 JPEG 编码器参数，ros2发布器m_pRosPublisher，发布"cam%d/compressed"
+
+JPEGENC_SetDataCallBack(m_pEncHandle, JpegEncCallBack, this); //完成encoding后回调
+m_pRosPublisher = std::make_shared<CCameraPublisher>(m_szTopic);
+\Downarrow
+**JpegEncCallBack**
+pOper->m_pRosPublisher->Publisher(stTime, data, datalen);
+rclcpp::spin_some(pOper->m_pRosPublisher);
+    
+在 JPEG 编码器完成一帧图像的编码操作后被调用。发布rostopic
+处理函数在 
+```
+pCamMgr->m_pCamerajpeg->Save(nChan, stTime, nWidth, nHeight, pData, nDatalen);
+```
+
+
+
+### 数据流
+
+
+StartAcquire() 启动取流
+        │
+        ▼
+   图像获取成功
+        │
+        ▼
+callbackImage(nChan, stTime, pData, ...)
+        │
+ ┌──────┼──────────────────────────────────────────────┐
+ │      │                                              │
+ ▼      ▼                                              ▼
+doShowImage()      m_pCamerajpeg->Save(...)         m_pVideoPush->InputData(...)
+                       │
+                       ▼
+            JPEGENC_InputData(...) → 异步编码完成 → JpegEncCallBack(...)
+                                                      │
+                                                      ▼
+                                 ┌──────────────┬──────────────┐
+                                 ▼              ▼              ▼
+                           保存 JPEG        ROS 发布     spin_some()
 
 
 ---
