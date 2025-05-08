@@ -93,8 +93,8 @@ StartAcquire() 启动取流
 callbackImage(nChan, stTime, pData, ...)
         │
  ┌──────┼──────────────────────────────────────────────┐
- │      │                                              │
- ▼      ▼                                              ▼
+ │                     │                               │
+ ▼                     ▼                               ▼
 doShowImage()      m_pCamerajpeg->Save(...)         m_pVideoPush->InputData(...)
                        │
                        ▼
