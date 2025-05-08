@@ -83,7 +83,7 @@ pCamMgr->m_pCamerajpeg->Save(nChan, stTime, nWidth, nHeight, pData, nDatalen);
 
 ### 数据流
 
-
+```
 StartAcquire() 启动取流
         │
         ▼
@@ -104,7 +104,7 @@ doShowImage()      m_pCamerajpeg->Save(...)         m_pVideoPush->InputData(...)
                                  ┌──────────────┬──────────────┐
                                  ▼              ▼              ▼
                            保存 JPEG        ROS 发布     spin_some()
-
+```
 
 ---
 
